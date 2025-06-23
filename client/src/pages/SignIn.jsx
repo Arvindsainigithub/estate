@@ -1,15 +1,21 @@
-import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  singInSuccess,
+  signInFailure,
+} from "../redux/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { error, loading } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeHandler = (event) => {
     setFormData({
@@ -21,7 +27,7 @@ export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -31,17 +37,13 @@ export default function SignIn() {
       });
       const data = await response.json();
       if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
-        return;
+        return signInFailure(data.message);
       }
-      setLoading(false);
-      setError(null);
+      dispatch(singInSuccess(data));
       toast.success("Invalid Credentials");
       navigate("/");
     } catch (err) {
-      setLoading(false);
-      setError(err.message);
+      signInFailure(err.message);
     }
   };
   console.log(error);
@@ -82,6 +84,7 @@ export default function SignIn() {
         >
           {loading ? "Loadding..." : "Sign Up"}
         </button>
+        <OAuth />
       </form>
       <div className="flex items-center mt-4 gap-2">
         <p>Dont have an account ?</p>

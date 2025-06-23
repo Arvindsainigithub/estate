@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import OAuth from "../components/Oauth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -89,6 +90,7 @@ export default function SignUp() {
         >
           {loading ? "Loadding..." : "Sign Up"}
         </button>
+        <OAuth/>
       </form>
       <div className="flex items-center mt-4 gap-2">
         <p>Have an account ?</p>

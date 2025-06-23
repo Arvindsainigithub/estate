@@ -26,12 +26,6 @@ export default function Header() {
           <li className="hidden sm:inline hover:underline">
             <NavLink to={"/about"}>About</NavLink>
           </li>
-          <li className="hidden sm:inline hover:underline">
-            <NavLink to={"/profile"}>Profile</NavLink>
-          </li>
-          <li className="hidden sm:inline hover:underline">
-            <NavLink to={"/sign-up"}>Signup</NavLink>
-          </li>
           <li className=" hover:underline">
             <NavLink to={"/sign-in"}>SignIn</NavLink>
           </li>
